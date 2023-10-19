@@ -147,7 +147,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scsss">
+<style scoped lang="scss">
   :root {
     --color-primary: #28b761;
     --color-secundary: #6c757d;
@@ -157,55 +157,63 @@ export default {
   }
 
   .search-component {
-    &__item {
 
-    }
-    &__button {
-      &.--success {
-        
-      }
-    }
-  }
-
-  .search-component {
     background-color: var(--color-primary);
     color: black;
     border-radius: var(--border-radius);
     font-family: var(--font-family);
     width: var(--width);
+
+    &__button {
+      border-radius: 10px;
+      margin-right: 10px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
+      font-size: 15px;
+      margin-bottom: 10px;
+
+      &search-component__selection-button {
+        border-radius: 10px;
+        margin-right: 10px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+    }
+
+    &__input-button {
+      margin-top: 15px;
+      font-size: 15px;
+
+      .search-component__input {
+        border-radius: 5px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        transition: border-color 0.3s ease;
+        
+        &:focus {
+          border-color: #3498db;
+        }
+      }
+
+      .search-component__selection-button {
+        padding: 10px 10px;
+        background-color: #3498db;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: darken(#3498db, 10%);
+        }
+      }
+    }
   }
 
-  .search-component__button {
-    border-radius: 10px;
-    margin-right: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
-    font-size: 15px;
-    margin-bottom: 10px;
-  }
-
-  .search-component__button:hover {
-    background-color:  #bad6ff;
-  }
-
-  .search-component__input {
-    border-radius: 4px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
-
-  .search-component__selection-button {
-    border-radius: 10px;
-    margin-right: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
-    font-size: 15px;
-    margin-bottom: 10px;
-  }
-
-  .search-component__selection-button:hover {
-    background-color: #ffe4ba;
-  }
-
-  /* Estilos para el checkbox y el span */
   .search-component__searchTern {
     display: flex;
     flex-direction: column;

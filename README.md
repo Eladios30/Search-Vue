@@ -1,4 +1,6 @@
-# buscador
+# Buscador or searcher
+
+This is an advanced search engine that obtains information through an api that you pass and extracts it and displays it on the screen with manners and certain advanced structures.
 
 ## How to use it?
 ```js
