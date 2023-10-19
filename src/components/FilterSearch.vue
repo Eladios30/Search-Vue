@@ -13,7 +13,7 @@
         <button class="search-component__selection-button" @click="applySelection">Aplicar Selección</button>
       </div>
 
-      <div class="search-component__searchTerm" v-if="searchTerm.length >= 3">
+      <div class="search-component__search-term" v-if="searchTerm.length >= 3">
         <div v-for="(placeholder, i) in filteredPlaceholders" :key="i" class="search-component__item">
           <input class="search-component__checkbox" type="checkbox" v-model="placeholder.selected" />
           <span class="search-component__title">{{ placeholder.title }}</span>
@@ -147,13 +147,24 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scsss">
   :root {
     --color-primary: #28b761;
     --color-secundary: #6c757d;
     --font-family: Ubuntu, sans-serift;
     --border-radius: 4px;
     --width: 500px;
+  }
+
+  .search-component {
+    &__item {
+
+    }
+    &__button {
+      &.--success {
+        
+      }
+    }
   }
 
   .search-component {
