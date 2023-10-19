@@ -1,9 +1,6 @@
 <template>
   <div :style="{ '--color-primary': primaryColor, '--color-secondary': secondaryColor, '--font-family': fontFamily, '--border-radius': borderRadius, '--width': width }" class="search-component">
 
-    <button class="search-component__button" @click="handleSearch('photos'); openModal()">Productos</button>
-    <button class="search-component__button" @click="handleSearch('posts'); openModal()">Clientes</button>
-
     <!-- Modal para mostrar input -->
     <div v-if="show" class="search-component__modal">
       <div class="search-component__input-button">
@@ -50,13 +47,16 @@ export default {
       originalPlaceholders: [],
       elementsSelect: [],
       searchTerm: "",
-      apiURL: "",
       isModalVisible: false,
-      show: false,
+      show: true,
       searchTimeout: null,
     };
   },
   props: {
+    apiQuery: {
+      type: String,
+      required: true,
+    },
     primaryColor: {
       type: String,
       default: 'var(--color-primary)'
@@ -86,6 +86,9 @@ export default {
           .includes(this.searchTerm.toLowerCase());
       });
     },
+    apiUrl(){
+      return this.apiQuery;
+    }
   },
   methods: {
     async fetchData(url) {
@@ -98,53 +101,6 @@ export default {
         this.placeholders = [...this.originalPlaceholders];
       } catch (error) {
         console.error(error);
-      }
-    },
-    handleResetPlaceholders() {
-      this.placeholders = [...this.originalPlaceholders];
-    },
-    handleSearch(type) {
-      if (type === "photos") {
-        this.apiUrl = "https://jsonplaceholder.typicode.com/photos/?_limit=12";
-      } else if (type === "posts") {
-        this.apiUrl = "https://jsonplaceholder.typicode.com/posts/?_limit=42";
-      }
-      this.fetchData(this.apiUrl);
-    },
-    showData(url) {
-      this.fetchData(url);
-    },
-    handlerFilter(searchTerm) {
-      this.originalPlaceholders = this.placeholders; 
-      this.placeholders = this.originalPlaceholders.filter((placeholder) => {
-        return placeholder.title
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
-      });
-    },
-    handleSearchInputChange() {
-      if (this.searchTerm.length >= 3){
-        this.filterPlaceHolders();
-      } else {
-        this.placeholders = [];
-      }
-    },
-    handleApplySelection(selectedElements) {
-      selectedElements.forEach((element) => {
-        this.$set(this.elementsSelect, element.id, {
-          id: element.id,
-          title: element.title,
-        });
-      });
-      this.isModalVisible = true;
-    },
-    filterPlaceHolders() {
-      if (this.searchTerm === "") {
-        this.placeholders = this.originalPlaceholders;
-      } else {
-        this.placeholders = this.originalPlaceholders.filter((placeholder) => {
-          return placeholder.title.toLowerCase().includes(this.searchTerm.toLowerCase());
-        })
       }
     },
     filterPlaceholdersWithDelay() {
@@ -167,7 +123,6 @@ export default {
       const selectedElements = this.filteredPlaceholders.filter(
         (placeholder) => placeholder.selected
       );
-      console.log("Elementos seleccionados:", selectedElements);
 
       this.elementsSelect.push(...selectedElements);
 
@@ -181,6 +136,10 @@ export default {
     }
   },
   watch: {
+    apiUrl(){
+      console.log(this.apiUrl)
+      this.fetchData(this.apiUrl)
+    },
     searchTerm() {
       this.filterPlaceholdersWithDelay();
     },
