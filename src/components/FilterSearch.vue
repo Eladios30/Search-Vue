@@ -87,7 +87,6 @@ export default {
       isModalVisible: false,
       show: true,
       searchTimeout: null,
-      activePlaceholder: null,
     };
   },
   props: {

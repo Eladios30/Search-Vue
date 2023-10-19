@@ -23,7 +23,7 @@ export default {
     handleApiSelection(param) {
       let url = `https://jsonplaceholder.typicode.com/${param}/?_limit=12`;
       this.selectedApi = url;
-    }
+    },
   }
 };
 </script>
