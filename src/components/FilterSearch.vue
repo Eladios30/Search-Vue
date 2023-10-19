@@ -297,10 +297,10 @@ export default {
 
     .search-component__close-button {
       background: none;
-      width: 20px;
-      height: 20px;
+      font-size: 10px;
+      padding: 10px;
       border: none;
-      font-size: 24px;
+      font-size: 50px;
       color: #ff4444;
       cursor: pointer;
       position: absolute;
