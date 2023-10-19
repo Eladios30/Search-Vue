@@ -1,35 +1,72 @@
 <template>
-  <div :style="{ '--color-primary': primaryColor, '--color-secondary': secondaryColor, '--font-family': fontFamily, '--border-radius': borderRadius, '--width': width }" class="search-component">
-
+  <div
+    :style="{
+      '--color-primary': primaryColor,
+      '--color-secondary': secondaryColor,
+      '--font-family': fontFamily,
+      '--border-radius': borderRadius,
+      '--width': width,
+    }"
+    class="search-component"
+  >
     <!-- Modal para mostrar input -->
     <div v-if="show" class="search-component__modal">
       <div class="search-component__input-button">
         <input
-        class="search-component__input"
-        type="text"
-        v-model="searchTerm"
-        @input="filterPlaceholdersWithDelay"
+          class="search-component__input"
+          type="text"
+          v-model="searchTerm"
+          @input="filterPlaceholdersWithDelay"
         />
-        <button class="search-component__selection-button" @click="applySelection">Aplicar Selección</button>
+        <button
+          class="search-component__selection-button"
+          @click="applySelection"
+        >
+          Aplicar Selección
+        </button>
       </div>
 
       <div class="search-component__search-term" v-if="searchTerm.length >= 3">
-        <div v-for="(placeholder, i) in filteredPlaceholders" :key="i" class="search-component__item">
-          <input class="search-component__checkbox" type="checkbox" v-model="placeholder.selected" />
-          <span class="search-component__title">{{ placeholder.title }}</span>
+        <div
+          class="search-component__item"
+          v-for="(placeholder, i) in filteredPlaceholders"
+          :key="i"
+        >
+          <span
+            class="search-component__title"
+            @mouseover="showCheckbox(placeholder)"
+            @mouseout="hideCheckbox(placeholder)"
+            @click="toggleCheckbox(placeholder)"
+            >{{ placeholder.title }}</span
+          >
+          <input
+            class="search-component__checkbox"
+            type="checkbox"
+            v-model="placeholder.selected"
+          />
         </div>
       </div>
       <div v-else class="search-component__message">
-        <span class="search-component__message-text">Ingrese más de 3 letras</span>
+        <span class="search-component__message-text"
+          >Ingrese más de 3 letras</span
+        >
       </div>
     </div>
 
     <!-- Modal para mostrar los resultados -->
-    <div class="search-component__modal search-component__result-modal" v-show="isModalVisible">
+    <div class="search-component__result-modal" v-show="isModalVisible">
       <div class="search-component__modal-content">
-        <span class="search-component__close-button" @click="closeModal">&times;</span>
-        <span class="search-component__result-item" v-for="(selectedElement, index) in elementsSelect" :key="index">
-          <p class="search-component__result-text">{{ selectedElement.id }} - {{ selectedElement.title }}</p>
+        <button class="search-component__close-button" @click="closeModal">
+          &times;
+        </button>
+        <span
+          class="search-component__result-item"
+          v-for="(selectedElement, index) in elementsSelect"
+          :key="index"
+        >
+          <p class="search-component__result-text">
+            {{ selectedElement.id }} - {{ selectedElement.title }}
+          </p>
         </span>
       </div>
     </div>
@@ -50,6 +87,7 @@ export default {
       isModalVisible: false,
       show: true,
       searchTimeout: null,
+      activePlaceholder: null,
     };
   },
   props: {
@@ -59,24 +97,24 @@ export default {
     },
     primaryColor: {
       type: String,
-      default: 'var(--color-primary)'
+      default: "var(--color-primary)",
     },
     secondaryColor: {
       type: String,
-      default: 'var(--color-secondary)'
+      default: "var(--color-secondary)",
     },
     fontFamily: {
       type: String,
-      default: 'var(--font-family)'
+      default: "var(--font-family)",
     },
     borderRadius: {
       type: String,
-      default: 'var(--border-radius)'
+      default: "var(--border-radius)",
     },
     width: {
       type: String,
-      default: 'var(--width)'
-    }
+      default: "var(--width)",
+    },
   },
   computed: {
     filteredPlaceholders() {
@@ -86,9 +124,9 @@ export default {
           .includes(this.searchTerm.toLowerCase());
       });
     },
-    apiUrl(){
+    apiUrl() {
       return this.apiQuery;
-    }
+    },
   },
   methods: {
     async fetchData(url) {
@@ -128,17 +166,25 @@ export default {
 
       this.isModalVisible = true;
     },
-    openModal(){
+    openModal() {
       this.show = !this.show;
     },
-    closeModal(){
+    closeModal() {
       this.isModalVisible = false;
-    }
+    },
+    showCheckbox(placeholder) {
+      placeholder.showCheckbox = true;
+    },
+    hideCheckbox(placeholder) {
+      placeholder.showCheckbox = false;
+    },
+    toggleCheckbox(placeholder) {
+      placeholder.selected = !placeholder.selected;
+    },
   },
   watch: {
-    apiUrl(){
-      console.log(this.apiUrl)
-      this.fetchData(this.apiUrl)
+    apiUrl() {
+      this.fetchData(this.apiUrl);
     },
     searchTerm() {
       this.filterPlaceholdersWithDelay();
@@ -148,102 +194,129 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  :root {
-    --color-primary: #28b761;
-    --color-secundary: #6c757d;
-    --font-family: Ubuntu, sans-serift;
-    --border-radius: 4px;
-    --width: 500px;
-  }
+:root {
+  --color-primary: #28b761;
+  --color-secundary: #6c757d;
+  --font-family: Ubuntu, sans-serift;
+  --border-radius: 4px;
+  --width: 500px;
+}
 
-  .search-component {
+.search-component {
+  background-color: var(--color-primary);
+  color: black;
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  width: var(--width);
 
-    background-color: var(--color-primary);
-    color: black;
-    border-radius: var(--border-radius);
-    font-family: var(--font-family);
-    width: var(--width);
+  &__input-button {
+    margin-top: 15px;
+    font-size: 15px;
 
-    &__button {
-      border-radius: 10px;
+    .search-component__input {
+      border-radius: 5px;
       margin-right: 10px;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
-      font-size: 15px;
       margin-bottom: 10px;
+      padding: 8px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      transition: border-color 0.3s ease;
 
-      &search-component__selection-button {
-        border-radius: 10px;
-        margin-right: 10px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, .2);
-        font-size: 15px;
-        margin-bottom: 10px;
+      &:focus {
+        border-color: #3498db;
       }
     }
 
-    &__input-button {
-      margin-top: 15px;
-      font-size: 15px;
+    // Boton para aplicar seleccion
+    .search-component__selection-button {
+      padding: 10px 10px;
+      background-color: #3498db;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
 
-      .search-component__input {
-        border-radius: 5px;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        padding: 8px;
-        border: 2px solid #ccc;
-        border-radius: 5px;
-        outline: none;
-        transition: border-color 0.3s ease;
-        
-        &:focus {
-          border-color: #3498db;
-        }
-      }
-
-      .search-component__selection-button {
-        padding: 10px 10px;
-        background-color: #3498db;
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: darken(#3498db, 10%);
-        }
+      &:hover {
+        background-color: darken(#3498db, 10%);
       }
     }
   }
 
-  .search-component__searchTern {
+  // Cuadro de busqueda
+  &__search-term {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 15px;
-  }
 
-  .search-component__item {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 20px;
-    cursor: pointer;
-  }
+    .search-component__item {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 19px;
+      cursor: pointer;
+    }
 
-  .search-component__checkbox {
-      margin-right: 10px;
-      opacity: 0;
-  }
-
-  .search-component__item:hover .search-component__checkbox {
+    .search-component__item, .search-component__title {
+    &:hover + .search-component__checkbox,
+    .search-component__checkbox:focus {
       opacity: 1;
+      }
+    }
+
+    .search-component__checkbox {
+      margin-left: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      width: 15px;
+      height: 15px;
+      transform: scale(1.5);
+    }
   }
 
-  .search-component__title {
-      font-size: 16px;
+  // Modal del resultado
+  &__result-modal {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+
+    .search-component__modal-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .search-component__close-button {
+      background: none;
+      width: 20px;
+      height: 20px;
+      border: none;
+      font-size: 24px;
+      color: #ff4444;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .search-component__result-item {
+      margin-top: 20px;
+    }
+
+    .search-component__result-text {
+      font-size: 18px;
       color: #333;
+      margin: 5px 0;
+    }
   }
-
-  .search-component__checkbox:checked + .search-component__title {
-      font-weight: bold;
-  }
-
+}
 </style>
