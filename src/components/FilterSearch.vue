@@ -278,51 +278,50 @@ export default {
 
   // Modal del resultado
   &__result-modal {
-    background-color: rgba(0, 0, 0, 0.8);
-    position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  overflow-y: auto;
+}
+
+.search-component__modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  position: relative; /* Asegura que los elementos hijos se posicionen relativos a este contenedor */
+
+  .search-component__close-button {
+    background: none;
+    font-size: 30px;
+    border: none;
+    color: black;
+    cursor: pointer;
+    position: absolute;
+    margin: 5px;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    align-items: flex-start;
-    overflow-y: auto;
-
-    .search-component__modal-content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-      text-align: left;
-      margin-top: 70px;
-    }
-
-    .search-component__close-button {
-      background: none;
-      font-size: 10px;
-      padding: 10px;
-      border: none;
-      font-size: 50px;
-      color: #333;
-      cursor: pointer;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
-
-    .search-component__result-item {
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .search-component__result-text {
-      font-size: 18px;
-      color: #333;
-      margin: 5px 0;
-    }
+    right: 10px;
   }
+}
+
+.search-component__result-item {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.search-component__result-text {
+  font-size: 18px;
+  color: #333;
+  margin: 5px 0;
+}
+
 }
 </style>
