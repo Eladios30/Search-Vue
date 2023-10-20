@@ -1,26 +1,25 @@
 <template>
   <div
-    :style="{
-      '--color-primary': primaryColor,
-      '--color-secondary': secondaryColor,
-      '--font-family': fontFamily,
-      '--border-radius': borderRadius,
-      '--width': width,
-    }"
     class="search-component"
   >
     <!-- Modal para mostrar input -->
     <div v-if="show" class="search-component__modal">
+      <h3>Filtrar por Producto</h3>
       <div class="search-component__input-button">
-        <input
-          class="search-component__input"
-          type="text"
-          v-model="searchTerm"
-          @input="filterPlaceholdersWithDelay"
-        />
+        <div class="search-component__input-container">
+          <i class="fas fa-search search-component__icon"></i>
+          <input
+            class="search-component__input"
+            type="text"
+            v-model="searchTerm"
+            @input="filterPlaceholdersWithDelay"
+            placeholder="Buscar..."
+          />
+        </div>
         <button
           class="search-component__selection-button"
           @click="applySelection"
+          v-if="searchTerm.length >= 3"
         >
           Aplicar Selección
         </button>
@@ -93,26 +92,6 @@ export default {
     apiQuery: {
       type: String,
       required: true,
-    },
-    primaryColor: {
-      type: String,
-      default: "var(--color-primary)",
-    },
-    secondaryColor: {
-      type: String,
-      default: "var(--color-secondary)",
-    },
-    fontFamily: {
-      type: String,
-      default: "var(--font-family)",
-    },
-    borderRadius: {
-      type: String,
-      default: "var(--border-radius)",
-    },
-    width: {
-      type: String,
-      default: "var(--width)",
     },
   },
   computed: {
@@ -193,38 +172,47 @@ export default {
 </script>
 
 <style scoped lang="scss">
-:root {
-  --color-primary: #28b761;
-  --color-secundary: #6c757d;
-  --font-family: Ubuntu, sans-serift;
-  --border-radius: 4px;
-  --width: 500px;
-}
 
 .search-component {
-  background-color: var(--color-primary);
-  color: black;
-  border-radius: var(--border-radius);
-  font-family: var(--font-family);
-  width: var(--width);
+  background-color: #ccc;
+  font-family: Ubuntu;
+  margin-top: 15px;
+  border-radius: 5px;
+  width: 300px;
+  height: 300px;
+  color: #333;
 
   &__input-button {
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 15px;
+
+    .search-component__input-container {
+      position: relative;
+      display: inline-block;
+    }
 
     .search-component__input {
       border-radius: 5px;
-      margin-right: 10px;
       margin-bottom: 10px;
-      padding: 8px;
+      padding: 10px 30px 10px 40px;
       border: 2px solid #ccc;
       border-radius: 5px;
       outline: none;
       transition: border-color 0.3s ease;
+      font-size: 15px;
+      width: 200px;
 
       &:focus {
         border-color: #3498db;
       }
+    }
+
+    .search-component__icon{
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-90%) rotate(90deg);
+      font-size: 16px; /* Tamaño del icono */
     }
 
     // Boton para aplicar seleccion
@@ -246,14 +234,26 @@ export default {
   &__search-term {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 15px;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: #ccc;
+    border-radius: 5px;
+    color: rgb(33, 33, 33);
 
     .search-component__item {
       margin-top: 10px;
       margin-bottom: 10px;
       font-size: 19px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-component__title {
+        margin-right: 10px;
+        text-align: left;
     }
 
     .search-component__item, .search-component__title {
@@ -264,7 +264,6 @@ export default {
     }
 
     .search-component__checkbox {
-      margin-left: 10px;
       opacity: 0;
       transition: opacity 0.3s ease;
       width: 15px;
@@ -284,14 +283,17 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 999;
+    align-items: flex-start;
+    max-height: 10px;
+    overflow-y: auto;
 
     .search-component__modal-content {
       background-color: #fff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-      text-align: center;
+      text-align: left;
     }
 
     .search-component__close-button {
@@ -309,6 +311,7 @@ export default {
 
     .search-component__result-item {
       margin-top: 20px;
+      text-align: left;
     }
 
     .search-component__result-text {
