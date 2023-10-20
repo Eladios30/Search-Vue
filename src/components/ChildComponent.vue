@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       selectedApi: '',
-      show: false
+      show: false,
     };
   },
   methods: {
