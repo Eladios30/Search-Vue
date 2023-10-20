@@ -37,6 +37,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: black;
   margin-top: 20px;
 }
 

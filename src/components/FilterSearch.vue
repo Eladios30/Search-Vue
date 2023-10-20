@@ -174,7 +174,7 @@ export default {
 <style scoped lang="scss">
 
 .search-component {
-  background-color: #ccc;
+  background-color: #f6f6f6;
   font-family: Ubuntu;
   margin-top: 15px;
   border-radius: 5px;
@@ -238,17 +238,24 @@ export default {
     margin-top: 15px;
     max-height: 250px;
     overflow-y: auto;
-    background-color: #ccc;
     border-radius: 5px;
     color: rgb(33, 33, 33);
 
     .search-component__item {
-      margin-top: 10px;
+      margin-top: 0px;
       margin-bottom: 10px;
       font-size: 19px;
       cursor: pointer;
-      display: flex;
+      display: block;
       align-items: center;
+      border-radius: 5px;
+      padding: 8px;
+      width: 100%;
+      text-align: left;
+
+      &:nth-child(odd) {
+        background-color: #d2d2d2;
+      }
     }
 
     .search-component__title {
@@ -283,9 +290,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 2;
     align-items: flex-start;
-    max-height: 10px;
     overflow-y: auto;
 
     .search-component__modal-content {
@@ -294,6 +300,7 @@ export default {
       border-radius: 10px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
       text-align: left;
+      margin-top: 70px;
     }
 
     .search-component__close-button {
@@ -302,7 +309,7 @@ export default {
       padding: 10px;
       border: none;
       font-size: 50px;
-      color: #ff4444;
+      color: #333;
       cursor: pointer;
       position: absolute;
       top: 10px;
