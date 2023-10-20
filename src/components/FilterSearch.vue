@@ -170,7 +170,7 @@ export default {
 
 <style scoped lang="scss">
 .search-component {
-  background-color: #f6f6f6;
+  background-color: white;
   font-family: Ubuntu;
   margin-top: 15px;
   border-radius: 5px;
@@ -191,7 +191,7 @@ export default {
       border-radius: 5px;
       margin-bottom: 10px;
       padding: 10px 30px 10px 40px;
-      border: 2px solid #ccc;
+      border: 2px solid #ffffff;
       border-radius: 5px;
       outline: none;
       transition: border-color 0.3s ease;
@@ -250,7 +250,7 @@ export default {
       text-align: left;
 
       &:nth-child(odd) {
-        background-color: #d2d2d2;
+        background-color: #f7f7f7;
       }
     }
 
