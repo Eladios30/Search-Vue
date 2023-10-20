@@ -1,10 +1,8 @@
 <template>
-  <div
-    class="search-component"
-  >
+  <div class="search-component" v-if="show">
     <!-- Modal para mostrar input -->
-    <div v-if="show" class="search-component__modal">
-      <h3>Filtrar por Producto</h3>
+    <div class="search-component__modal">
+
       <div class="search-component__input-button">
         <div class="search-component__input-container">
           <i class="fas fa-search search-component__icon"></i>
@@ -69,7 +67,6 @@
         </span>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -172,7 +169,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .search-component {
   background-color: #f6f6f6;
   font-family: Ubuntu;
@@ -207,7 +203,7 @@ export default {
       }
     }
 
-    .search-component__icon{
+    .search-component__icon {
       position: absolute;
       left: 10px;
       top: 50%;
@@ -259,14 +255,15 @@ export default {
     }
 
     .search-component__title {
-        margin-right: 10px;
-        text-align: left;
+      margin-right: 10px;
+      text-align: left;
     }
 
-    .search-component__item, .search-component__title {
-    &:hover + .search-component__checkbox,
-    .search-component__checkbox:focus {
-      opacity: 1;
+    .search-component__item,
+    .search-component__title {
+      &:hover + .search-component__checkbox,
+      .search-component__checkbox:focus {
+        opacity: 1;
       }
     }
 

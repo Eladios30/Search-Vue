@@ -1,12 +1,12 @@
 <template>
   <div class="parent-component">
     <div class="button-container">
-      <button class="custom-button" @click="handleApiSelection('posts')">Productos</button>
-      <button class="custom-button" @click="handleApiSelection('photos')">Clientes</button>
+      <button class="custom-button" @click="handleApiSelection('posts'); showFilter()">Productos</button>
+      <button class="custom-button" @click="handleApiSelection('photos'); showFilter()">Clientes</button>
     </div>
 
     <div class="filter-component">
-      <FilterSearch :apiQuery="selectedApi" />
+      <FilterSearch :apiQuery="selectedApi" v-show="show"/>
     </div>
   </div>
 
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       selectedApi: '',
+      show: false
     };
   },
   methods: {
@@ -28,6 +29,9 @@ export default {
       let url = `https://jsonplaceholder.typicode.com/${param}/?_limit=52`;
       this.selectedApi = url;
     },
+    showFilter() {
+      this.show = !this.show;
+    }
   }
 };
 </script>
@@ -37,7 +41,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: black;
   margin-top: 20px;
 }
 
