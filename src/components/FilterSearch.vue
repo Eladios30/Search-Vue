@@ -1,5 +1,5 @@
 <template>
-  <div class="search-component" v-if="show">
+  <div class="search-component">
     <!-- Modal para mostrar input -->
     <div class="search-component__modal">
 
@@ -81,7 +81,7 @@ export default {
       elementsSelect: [],
       searchTerm: "",
       isModalVisible: false,
-      show: true,
+      isVisible: true,
       searchTimeout: null,
     };
   },
