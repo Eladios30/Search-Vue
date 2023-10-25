@@ -2,17 +2,15 @@
   <div class="parent-component">
 
     <div class="filter-component">
-      <FilterSearch @click="handleApiSelection('posts')" :apiQuery="selectedApi" label="Products" :filter-options="Products" />
-      <FilterSearch @click="handleApiSelection('photos')" :apiQuery="selectedApi" label="Clients" :filter-options="Clients" />
+      <FilterSearch label="Products" :filterOptions="products" />
+      <FilterSearch label="Clients" :filterOptions="clients" />
     </div>
-
   </div>
 
 </template>
 
 <script>
 import FilterSearch from './FilterSearch.vue';
-
 export default {
   components: {
     FilterSearch
@@ -21,15 +19,24 @@ export default {
     return {
       selectedApi: '',
       show: false,
+      products: [{
+        id: 'p1',
+        name: 'product'
+      },
+    {
+      id: 'p2',
+        name: 'teclado'
+    }],
+      clients: [{
+        id: 'c1',
+        name: 'cliente'
+      },
+    {
+      id: 'c2',
+        name: 'eladio'
+    }]
     };
   },
-  methods: {
-    handleApiSelection(param) {
-      let url = `https://jsonplaceholder.typicode.com/${param}/?_limit=52`;
-   
-      this.selectedApi = url;
-      }
-    },
 };
 </script>
 
