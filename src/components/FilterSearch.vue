@@ -35,33 +35,36 @@
           class="search-component__results-title"
         >
           {{ option.name }}
-          <input class="search-component__results-checkbox" type="checkbox" v-model="option.checked" />
+          <input
+            class="search-component__results-checkbox"
+            type="checkbox"
+            v-model="option.checked"
+          />
         </p>
       </div>
     </div>
 
     <!-- Modal para mostrar resultados seleccionados -->
-<div v-show="showResultsModal" class="search-component__modal-overlay">
-  <div class="search-component__modal-content">
-    <div class="search-component__modal-header">
-      <h2>Resultados Seleccionados</h2>
-      <button @click="closeModal">&times;</button>
+    <div v-show="showResultsModal" class="search-component__modal-overlay">
+      <div class="search-component__modal-content">
+        <div class="search-component__modal-header">
+          <h2>Resultados Seleccionados</h2>
+          <button @click="closeModal">&times;</button>
+        </div>
+        <div class="search-component__selected-results">
+          <p v-if="selectedOptions.length === 0">Ninguna opción seleccionada</p>
+          <ul v-else>
+            <li v-for="option in selectedOptions" :key="option.id">
+              {{ option.id }}|{{ option.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="search-component__selected-results">
-      <p v-if="selectedOptions.length === 0">Ninguna opción seleccionada</p>
-      <ul v-else>
-        <li v-for="option in selectedOptions" :key="option.id">{{ option.id }}| {{ option.name }}</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
   </div>
 </template>
 
 <script>
-// import axios from "axios";
-
 export default {
   name: "FilterComponent",
   data() {
@@ -108,11 +111,11 @@ export default {
     showModalResults() {
       if (this.searchTerm.length >= 3) {
         this.selectedOptions = this.filteredOptions.filter(
-          option => option.checked
+          (option) => option.checked
         );
         this.showResultsModal = true;
-        this.searchTerm = '';
-        this.filteredOptions.forEach(option => option.checked = false);
+        this.searchTerm = "";
+        this.filteredOptions.forEach((option) => (option.checked = false));
       }
     },
   },
@@ -128,12 +131,18 @@ export default {
 .search-component {
   background-color: white;
   font-family: Ubuntu;
-  margin-top: 15px;
   align-items: center;
   border-radius: 5px;
   width: 150px;
   height: 150px;
   color: #333;
+
+  &__modal {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    width: 200px;
+    height: 200px;
+  }
 
   &__label {
     background-color: transparent;
@@ -158,7 +167,7 @@ export default {
   &__input-button {
     position: relative;
     margin-top: 10px;
-    font-size: 15px;
+    width: 100%;
 
     .search-component__input-container {
       position: relative;
@@ -166,15 +175,14 @@ export default {
     }
 
     .search-component__input {
-      border-radius: 5px;
       margin-bottom: 10px;
-      padding: 10px 30px 10px 40px;
+      padding: 10px 10px 10px 30px;
       border: 2px solid #ffffff;
       border-radius: 5px;
       outline: none;
       transition: border-color 0.3s ease;
       font-size: 15px;
-      width: 200px;
+      width: 80%;
 
       &:focus {
         border-color: #3498db;
@@ -206,13 +214,19 @@ export default {
 
   &__results {
     display: block;
-    margin-top: 20px;
+    margin-top: 10px;
     height: 100%;
 
     &-title {
       display: flex;
       align-items: center;
       cursor: pointer;
+      margin: 5px 0;
+      border-radius: 3px;
+
+      &:nth-child(even) {
+        background-color: #bbb;
+      }
 
       .search-component__results-checkbox {
         margin-right: 10px;
@@ -242,21 +256,22 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 1;
   }
 
   &__modal-content {
     background-color: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
   }
 
   &__modal-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: left;
+    margin-bottom: 10px;
 
     h2 {
       font-size: 18px;
@@ -270,6 +285,5 @@ export default {
       color: #333;
     }
   }
-
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="parent-component">
     <div class="filter-component">
-      <FilterSearch label="Products" :filterOptions="products" />
-      <FilterSearch label="Clients" :filterOptions="clients" />
+      <FilterSearch class="custom-button" label="Products" :filterOptions="products" />
+      <FilterSearch class="custom-button" label="Clients" :filterOptions="clients" />
     </div>
   </div>
 </template>
@@ -54,35 +54,19 @@ export default {
   margin-top: 20px;
 }
 
-.button-container {
+.filter-component {
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px; /* Añade un margen inferior para separar los componentes FilterSearch */
 }
 
 .custom-button {
   font-size: 15px;
-  border-radius: 5px; /* Aplica el mismo borde redondeado que el input */
+  border-radius: 5px;
   margin-right: 10px;
   margin-bottom: 10px;
-  padding: 8px 16px; /* Ajusta el relleno según sea necesario */
-  border: 2px solid #ccc;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.filter-component {
-  width: 100px;
-  height: 200px;
-  margin: 0 auto;
-  margin-top: 15px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-
-button {
-  font-size: 15px;
+  margin-left: 50px;
 }
 </style>
+
