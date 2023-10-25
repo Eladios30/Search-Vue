@@ -1,8 +1,9 @@
 <template>
   <div class="search-component">
+    
+    <button @click="show = !show" >{{ label }}</button>
     <!-- Modal para mostrar input -->
-    <div class="search-component__modal">
-
+    <div  v-show="show" class="search-component__modal">
       <div class="search-component__input-button">
         <div class="search-component__input-container">
           <i class="fas fa-search search-component__icon"></i>
@@ -74,18 +75,22 @@
 import axios from "axios";
 
 export default {
+  name: 'FilterComponent',
   data() {
     return {
       placeholders: [],
       originalPlaceholders: [],
       elementsSelect: [],
       searchTerm: "",
+      show: false,
       isModalVisible: false,
       isVisible: true,
       searchTimeout: null,
     };
   },
   props: {
+    label: String,
+    filterOptions: Array,
     apiQuery: {
       type: String,
       required: true,
@@ -102,6 +107,11 @@ export default {
     apiUrl() {
       return this.apiQuery;
     },
+  },
+  created(){
+      this.$parent.$on('clear-search', () => {
+      this.searchTerm = "";
+    });
   },
   methods: {
     async fetchData(url) {

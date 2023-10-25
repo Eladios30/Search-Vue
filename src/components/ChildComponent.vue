@@ -1,19 +1,18 @@
 <template>
   <div class="parent-component">
-    <div class="button-container">
-      <button class="custom-button" @click="handleApiSelection('posts'); showFilter()">Productos</button>
-      <button class="custom-button" @click="handleApiSelection('photos'); showFilter()">Clientes</button>
-    </div>
 
     <div class="filter-component">
-      <FilterSearch :apiQuery="selectedApi" v-show="show"/>
+      <FilterSearch @click="handleApiSelection('posts')" :apiQuery="selectedApi" label="Products" :filter-options="Products" />
+      <FilterSearch @click="handleApiSelection('photos')" :apiQuery="selectedApi" label="Clients" :filter-options="Clients" />
     </div>
+
   </div>
 
 </template>
 
 <script>
 import FilterSearch from './FilterSearch.vue';
+
 export default {
   components: {
     FilterSearch
@@ -27,16 +26,15 @@ export default {
   methods: {
     handleApiSelection(param) {
       let url = `https://jsonplaceholder.typicode.com/${param}/?_limit=52`;
+   
       this.selectedApi = url;
+      }
     },
-    showFilter() {
-      this.show = !this.show;
-    }
-  }
 };
 </script>
 
 <style scoped>
+
 .parent-component {
   display: flex;
   flex-direction: column;
