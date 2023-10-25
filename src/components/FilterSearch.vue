@@ -1,6 +1,8 @@
 <template>
   <div class="search-component">
-    <button @click="openModal()">{{ label }}</button>
+    <button class="search-component__label" @click="openModal()">
+      {{ label }}
+    </button>
 
     <!-- Modal para mostrar input -->
     <div v-show="show" class="search-component__modal">
@@ -30,13 +32,30 @@
         <p
           v-for="option in filteredOptions"
           :key="option.id"
-          class="search-component__results__title"
+          class="search-component__results-title"
         >
           {{ option.name }}
-          <input type="checkbox" />
+          <input class="search-component__results-checkbox" type="checkbox" v-model="option.checked" />
         </p>
       </div>
     </div>
+
+    <!-- Modal para mostrar resultados seleccionados -->
+<div v-show="showResultsModal" class="search-component__modal-overlay">
+  <div class="search-component__modal-content">
+    <div class="search-component__modal-header">
+      <h2>Resultados Seleccionados</h2>
+      <button @click="closeModal">&times;</button>
+    </div>
+    <div class="search-component__selected-results">
+      <p v-if="selectedOptions.length === 0">Ninguna opción seleccionada</p>
+      <ul v-else>
+        <li v-for="option in selectedOptions" :key="option.id">{{ option.id }}| {{ option.name }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
   </div>
 </template>
 
@@ -50,7 +69,9 @@ export default {
       searchTerm: "",
       show: false,
       showResults: false,
+      showResultsModal: false,
       searchTimeout: null,
+      selectedOptions: [],
     };
   },
   props: {
@@ -81,9 +102,17 @@ export default {
     openModal() {
       this.show = !this.show;
     },
+    closeModal() {
+      this.showResultsModal = false;
+    },
     showModalResults() {
       if (this.searchTerm.length >= 3) {
-        this.showResults = !this.showResults;
+        this.selectedOptions = this.filteredOptions.filter(
+          option => option.checked
+        );
+        this.showResultsModal = true;
+        this.searchTerm = '';
+        this.filteredOptions.forEach(option => option.checked = false);
       }
     },
   },
@@ -100,13 +129,35 @@ export default {
   background-color: white;
   font-family: Ubuntu;
   margin-top: 15px;
+  align-items: center;
   border-radius: 5px;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   color: #333;
 
+  &__label {
+    background-color: transparent;
+    border: 3px solid #ccc;
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: border-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      border-color: #bbb;
+    }
+
+    &:active {
+      border-color: #3498db;
+      color: #3498db;
+    }
+  }
+
   &__input-button {
-    margin-top: 20px;
+    position: relative;
+    margin-top: 10px;
     font-size: 15px;
 
     .search-component__input-container {
@@ -135,7 +186,7 @@ export default {
       left: 10px;
       top: 50%;
       transform: translateY(-90%) rotate(90deg);
-      font-size: 16px; /* Tamaño del icono */
+      font-size: 16px;
     }
 
     // Boton para aplicar seleccion
@@ -153,101 +204,72 @@ export default {
     }
   }
 
-  // Cuadro de busqueda
-  &__search-term {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 15px;
-    max-height: 250px;
-    overflow-y: auto;
-    border-radius: 5px;
-    color: rgb(33, 33, 33);
+  &__results {
+    display: block;
+    margin-top: 20px;
+    height: 100%;
 
-    .search-component__item {
-      margin-top: 0px;
-      margin-bottom: 10px;
-      font-size: 19px;
-      cursor: pointer;
-      display: block;
+    &-title {
+      display: flex;
       align-items: center;
-      border-radius: 5px;
-      padding: 8px;
-      width: 100%;
-      text-align: left;
+      cursor: pointer;
 
-      &:nth-child(odd) {
-        background-color: #f7f7f7;
+      .search-component__results-checkbox {
+        margin-right: 10px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
-    }
 
-    .search-component__title {
-      margin-right: 10px;
-      text-align: left;
-    }
-
-    .search-component__item,
-    .search-component__title {
-      &:hover + .search-component__checkbox,
-      .search-component__checkbox:focus {
+      &:hover .search-component__results-checkbox {
         opacity: 1;
       }
     }
-
-    .search-component__checkbox {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      width: 15px;
-      height: 15px;
-      transform: scale(1.5);
-    }
   }
 
-  // Modal del resultado
-  &__result-modal {
-    background-color: rgba(0, 0, 0, 0.8);
+  .search-component__input-container,
+  .search-component__results,
+  .search-component__results-title {
+    width: 100%;
+  }
+
+  &__modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
   }
 
-  .search-component__modal-content {
-    background-color: #fff;
+  &__modal-content {
+    background-color: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    position: relative; /* Asegura que los elementos hijos se posicionen relativos a este contenedor */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 
-    .search-component__close-button {
+  &__modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 18px;
+    }
+
+    button {
       background: none;
-      font-size: 30px;
       border: none;
-      color: black;
+      font-size: 24px;
       cursor: pointer;
-      position: absolute;
-      margin: 5px;
-      top: 0;
-      right: 10px;
+      color: #333;
     }
   }
 
-  .search-component__result-item {
-    margin-top: 20px;
-    text-align: left;
-  }
-
-  .search-component__result-text {
-    font-size: 18px;
-    color: #333;
-    margin: 5px 0;
-  }
 }
 </style>
