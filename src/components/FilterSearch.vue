@@ -138,7 +138,7 @@ export default {
   color: #333;
 
   &__modal {
-    background-color: #f2f2f2;
+    background-color: #f7f7f6;
     border-radius: 5px;
     width: 200px;
     height: 200px;
@@ -215,6 +215,7 @@ export default {
   &__results {
     display: block;
     margin-top: 10px;
+    font-size: 18px;
     height: 100%;
 
     &-title {
@@ -223,9 +224,10 @@ export default {
       cursor: pointer;
       margin: 5px 0;
       border-radius: 3px;
+      scroll-behavior: smooth;
 
-      &:nth-child(even) {
-        background-color: #bbb;
+      &:nth-child(odd) {
+        background-color: white;
       }
 
       .search-component__results-checkbox {
