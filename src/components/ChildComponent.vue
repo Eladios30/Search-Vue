@@ -5,7 +5,7 @@
         class="custom-button"
         label="Products"
         :filterOptions="products"
-        @update="updateProducts"
+        @update="productFilter"
       />
       <FilterSearch
         class="custom-button"
@@ -28,20 +28,18 @@ export default {
       selectedApi: "",
       show: false,
       products: [
-        { id: "p1", name: "teclado" },
-        { id: "p2", name: "ratón" },
-        { id: "p3", name: "monitor" },
-        { id: "p4", name: "cámara" },
-        { id: "p5", name: "altavoz" },
-        { id: "p6", name: "auriculares" },
-        { id: "p7", name: "impresora" },
-        { id: "p8", name: "escáner" },
-        { id: "p9", name: "disco duro" },
-        { id: "p10", name: "procesador" },
+        { id: "p1", name: "teclado", precio: 50, calidad: 8, popularidad: 7 },
+        { id: "p2", name: "ratón", precio: 40, calidad: 7, popularidad: 9 },
+        { id: "p3", name: "monitor", precio: 150, calidad: 9, popularidad: 6 },
+        { id: "p4", name: "cámara", precio: 100, calidad: 6, popularidad: 8 },
+        { id: "p5", name: "altavoz", precio: 30, calidad: 7, popularidad: 7 },
+        { id: "p6", name: "auriculares", precio: 20, calidad: 8, popularidad: 6,},
+        { id: "p7", name: "impresora", precio: 80, calidad: 6, popularidad: 8 },
+        { id: "p8", name: "escáner", precio: 70, calidad: 7, popularidad: 7 },
+        { id: "p9", name: "disco duro", precio: 60, calidad: 8, popularidad: 6, },
+        { id: "p10", name: "procesador", precio: 200, calidad: 9, popularidad: 5, },
       ],
-      producstFilter: {
-
-      },
+      productFilter: [],
       clients: [
         {
           id: "c1",
@@ -52,8 +50,8 @@ export default {
   },
   methods: {
     updateProducts(filteredOptions) {
-      console.log('component filtrado');
-      this.producstFilter = filteredOptions;
+      console.log("component filtrado");
+      this.productFilter = filteredOptions;
     },
     updateClients(filteredOptions) {
       console.log(filteredOptions);
