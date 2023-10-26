@@ -86,8 +86,6 @@ export default {
       const filtered = this.filterOptions.filter((option) =>
         option.name.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
-      console.log("Search Term:", this.searchTerm);
-      console.log("Filtered Options:", filtered);
       return filtered;
     },
   },
@@ -97,6 +95,8 @@ export default {
       this.searchTimeout = setTimeout(() => {
         if (this.searchTerm.length >= 3) {
           this.showResults = true;
+          const filteredOptions = this.filterOptions.filter((option) => option.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+          this.$emit('update', filteredOptions);
         } else {
           this.showResults = false;
         }
@@ -111,13 +111,16 @@ export default {
     showModalResults() {
       if (this.searchTerm.length >= 3) {
         this.selectedOptions = this.filteredOptions.filter(
-          (option) => option.checked
-        );
+          (option) => option.checked);
         this.showResultsModal = true;
         this.searchTerm = "";
         this.filteredOptions.forEach((option) => (option.checked = false));
       }
     },
+    updateProduct(searchTerm) {
+      this.filteredOptions = this.filteredOptions.filter((option) => 
+      option.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
   },
   watch: {
     searchTerm() {
@@ -212,6 +215,7 @@ export default {
     }
   }
 
+  //Modal de resultados
   &__results {
     display: block;
     margin-top: 10px;

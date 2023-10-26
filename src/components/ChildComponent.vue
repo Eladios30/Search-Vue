@@ -1,8 +1,18 @@
 <template>
   <div class="parent-component">
     <div class="filter-component">
-      <FilterSearch class="custom-button" label="Products" :filterOptions="products" />
-      <FilterSearch class="custom-button" label="Clients" :filterOptions="clients" />
+      <FilterSearch
+        class="custom-button"
+        label="Products"
+        :filterOptions="products"
+        @update="updateProducts"
+      />
+      <FilterSearch
+        class="custom-button"
+        label="Clients"
+        :filterOptions="clients"
+        @update="updateClients"
+      />
     </div>
   </div>
 </template>
@@ -18,30 +28,37 @@ export default {
       selectedApi: "",
       show: false,
       products: [
-        {
-          id: "p1",
-          name: "product",
-        },
-        {
-          id: "p2",
-          name: "teclado",
-        },
-        {
-          id: "p3",
-          name: "producto",
-        },
+        { id: "p1", name: "teclado" },
+        { id: "p2", name: "ratón" },
+        { id: "p3", name: "monitor" },
+        { id: "p4", name: "cámara" },
+        { id: "p5", name: "altavoz" },
+        { id: "p6", name: "auriculares" },
+        { id: "p7", name: "impresora" },
+        { id: "p8", name: "escáner" },
+        { id: "p9", name: "disco duro" },
+        { id: "p10", name: "procesador" },
       ],
+      producstFilter: {
+
+      },
       clients: [
         {
           id: "c1",
           name: "cliente",
         },
-        {
-          id: "c2",
-          name: "eladio",
-        },
       ],
     };
+  },
+  methods: {
+    updateProducts(filteredOptions) {
+      console.log('component filtrado');
+      this.producstFilter = filteredOptions;
+    },
+    updateClients(filteredOptions) {
+      console.log(filteredOptions);
+      this.clients = filteredOptions;
+    },
   },
 };
 </script>
@@ -58,7 +75,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-bottom: 20px; /* Añade un margen inferior para separar los componentes FilterSearch */
+  margin-bottom: 20px;
 }
 
 .custom-button {
@@ -69,4 +86,3 @@ export default {
   margin-left: 50px;
 }
 </style>
-
