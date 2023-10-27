@@ -91,17 +91,16 @@ export default {
   methods: {
     filterPlaceholdersWithDelay() {
       clearTimeout(this.searchTimeout);
+
       this.searchTimeout = setTimeout(() => {
         if (this.searchTerm.length >= 3) {
           this.showResults = true;
-          const filteredOptions = this.filterOptions.filter((option) =>
-            option.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-          );
-          this.$emit("update", Array.from(filteredOptions));
         } else {
           this.showResults = false;
           this.$emit("update", [])
+          return;
         }
+        this.$emit('update', Array.from(this.filteredOptions));
       }, 300);
     },
     openModal() {
