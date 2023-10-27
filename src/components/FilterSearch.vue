@@ -83,10 +83,9 @@ export default {
   },
   computed: {
     filteredOptions() {
-      const filtered = this.filterOptions.filter((option) =>
+      return this.filterOptions.filter((option) =>
         option.name.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
-      return filtered;
     },
   },
   methods: {
@@ -98,47 +97,10 @@ export default {
           const filteredOptions = this.filterOptions.filter((option) =>
             option.name.toLowerCase().includes(this.searchTerm.toLowerCase())
           );
-          this.$emit("update", [...filteredOptions]); //#1
-        } else {
-          this.showResults = false;
-        }
-      }, 300);
-    },
-    filterPlaceholdersWithDelay2() {
-      clearTimeout(this.searchTimeout);
-      this.searchTimeout = setTimeout(() => {
-        if (this.searchTerm.length >= 3) {
-          this.showResults = true;
-          const filteredOptions = [];
-          for (let i = 0; i < this.filterOptions.length; i++) {
-            const option = this.filterOptions[i];
-            if (
-              option.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-            ) {
-              filteredOptions.push(option);
-            }
-          }
           this.$emit("update", Array.from(filteredOptions));
         } else {
           this.showResults = false;
-        }
-      }, 300);
-    },
-    filterPlaceholdersWithDelay3() {
-      clearTimeout(this.searchTimeout);
-      this.searchTimeout = setTimeout(() => {
-        if (this.searchTerm.length >= 3) {
-          this.showResults = true;
-          const filteredOptions = [];
-          for (const option of this.filterOptions) {
-            if (option.name.toLowerCase().includes(this.searchTerm.toLowerCase())) {
-              filteredOptions.push(option);
-            }
-          }
-          const copiedArray = filteredOptions.slice();
-          this.$emit("update", copiedArray);
-        } else {
-          this.showResults = false;
+          this.$emit("update", [])
         }
       }, 300);
     },
@@ -158,16 +120,14 @@ export default {
         this.filteredOptions.forEach((option) => (option.checked = false));
       }
     },
-    updateProduct(searchTerm) {
-      this.filteredOptions = this.filteredOptions.filter((option) =>
-        option.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    },
   },
   watch: {
     searchTerm() {
       this.filterPlaceholdersWithDelay();
     },
+  },
+  beforeDestroy() {
+    clearTimeout(this.searchTimeout);
   },
 };
 </script>

@@ -5,7 +5,7 @@
         class="custom-button"
         label="Products"
         :filterOptions="products"
-        @update="productFilter"
+        @update="updateProducts"
       />
       <FilterSearch
         class="custom-button"
@@ -50,11 +50,9 @@ export default {
   },
   methods: {
     updateProducts(filteredOptions) {
-      console.log("component filtrado");
       this.productFilter = filteredOptions;
     },
     updateClients(filteredOptions) {
-      console.log(filteredOptions);
       this.clients = filteredOptions;
     },
   },
