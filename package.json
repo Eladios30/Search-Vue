@@ -1,6 +1,6 @@
 {
   "name": "buscador",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "dis/components/FilterSearch.js",
   "private": false,
   "scripts": {
