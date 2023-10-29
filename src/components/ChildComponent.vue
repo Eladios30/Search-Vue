@@ -25,27 +25,32 @@ export default {
     return {
       selectedApi: "",
       show: false,
-      products: [{
-        label: 'Productos',
-        options: [
-        { code: "p1", label: "teclado"},
-        { code: "p2", label: "ratón" },
-        { code: "p3", label: "monitor" },
-        { code: "p4", label: "cámara" },
-        { code: "p5", label: "altavoz" },
-        { code: "p6", label: "auriculares" },
-        { code: "p7", label: "impresora" },
-        { code: "p8", label: "escáner" },
-        { code: "p9", label: "disco duro" },
-        { code: "p10", label: "procesador" },
-        ]}],
-      productFilter: [],
-      clients: [
+      products: [
         {
-          id: "c1",
-          name: "cliente",
+          label: "Productos",
+          options: [
+            { code: "p1", label: "teclado" },
+            { code: "p2", label: "ratón" },
+            { code: "p3", label: "monitor" },
+            { code: "p4", label: "cámara" },
+            { code: "p5", label: "altavoz" },
+            { code: "p6", label: "auriculares" },
+            { code: "p7", label: "impresora" },
+            { code: "p8", label: "escáner" },
+            { code: "p9", label: "disco duro" },
+            { code: "p10", label: "procesador" },
+          ],
+        },
+        {
+          label: "Categorías",
+          options: [
+            { code: "c1", label: "Electrónicos" },
+            { code: "c2", label: "Ropa" },
+            { code: "c3", label: "Accesorios" },
+          ],
         },
       ],
+      productFilter: [],
     };
   },
   methods: {

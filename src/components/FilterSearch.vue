@@ -88,32 +88,33 @@ export default {
   },
   computed: {
     filteredOptions() {
-      if (
-        this.filterOptions &&
-        this.filterOptions.length > 0 &&
-        this.filterOptions[0].options
-      ) {
-        // Normaliza el término de búsqueda sin acentos
-        const normalizedSearchTerm = this.searchTerm
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
+      if (this.filterOptions && this.filterOptions.length > 0) {
+        const allOptions = this.filterOptions.reduce((acc, category) => {
+          return acc.concat(category.options);
+        }, []);
 
-        return this.filterOptions[0].options.filter((option) => {
-          // Normaliza la etiqueta y el código de la opción sin acentos
-          const normalizedLabel = option.label
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-          const normalizedCode = option.code
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
-
-          // Compara con la versión normalizada del término de búsqueda
+        return allOptions.filter((option) => {
           return (
-            normalizedCode.includes(normalizedSearchTerm) ||
-            normalizedLabel.includes(normalizedSearchTerm)
+            option.label
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                this.searchTerm
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+              ) ||
+            option.code
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .includes(
+                this.searchTerm
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+              )
           );
         });
       } else {
@@ -159,6 +160,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style scoped lang="scss">
