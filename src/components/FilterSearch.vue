@@ -1,13 +1,21 @@
 <template>
   <div class="search-component">
-    <button
-      v-for="filter in filterOptions"
-      :key="filter.label"
-      class="search-component__label"
-      @click="openModal()"
-    >
-      {{ filter.label }}
-    </button>
+    <div class="search-component__buttons">
+      <!-- <button
+        v-for="filter in filterOptions"
+        :key="filter.label"
+        class="search-component__label"
+        @click="openModal()"
+      >
+        {{ filter.label }}
+      </button> -->
+      <button
+        class="search-component__label"
+        @click="openModal()"
+      >
+        {{ label }}
+      </button>
+    </div>
 
     <!-- Modal para mostrar input -->
     <div v-show="show" class="search-component__modal">
@@ -89,37 +97,39 @@ export default {
   computed: {
     filteredOptions() {
       if (this.filterOptions && this.filterOptions.length > 0) {
-        const allOptions = this.filterOptions.reduce((acc, category) => {
-          return acc.concat(category.options);
-        }, []);
+        const currentCategory = this.filterOptions.find(
+          (category) => category.label === this.label
+        );
 
-        return allOptions.filter((option) => {
-          return (
-            option.label
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .includes(
-                this.searchTerm
-                  .toLowerCase()
-                  .normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "")
-              ) ||
-            option.code
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .includes(
-                this.searchTerm
-                  .toLowerCase()
-                  .normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "")
-              )
-          );
-        });
-      } else {
-        return [];
+        if (currentCategory && currentCategory.options) {
+          return currentCategory.options.filter((option) => {
+            return (
+              option.label
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(
+                  this.searchTerm
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                ) ||
+              option.code
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .includes(
+                  this.searchTerm
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                )
+            );
+          });
+        }
       }
+
+      return [];
     },
   },
   methods: {
@@ -160,7 +170,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -180,7 +189,14 @@ export default {
     height: 200px;
   }
 
+  &__buttons {
+    display: flex; /* Establece el contenedor como flexbox */
+    flex-direction: row; /* Coloca los elementos hijos en línea horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente en el contenedor */
+  }
+
   &__label {
+    /* Estilos para los botones */
     background-color: transparent;
     border: 3px solid #ccc;
     color: black;
@@ -188,6 +204,7 @@ export default {
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
+    margin-right: 10px; /* Margen entre los botones */
     transition: border-color 0.3s ease, color 0.3s ease;
 
     &:hover {

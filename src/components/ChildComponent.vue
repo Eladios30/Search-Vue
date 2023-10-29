@@ -1,16 +1,31 @@
 <template>
   <div class="parent-component">
-    <div class="filter-component">
+    <div class="parent-component__filter-component">
       <FilterSearch
-        class="custom-button"
+        class="parent-component__component"
+        label="Productos"
         :filterOptions="products"
-        @update="updateProducts"
       />
-      <!-- <FilterSearch
-        class="custom-button"
-        :filterOptions="clients"
-        @update="updateClients"
-      /> -->
+      <FilterSearch
+        class="parent-component__component"
+        label="Clientes"
+        :filterOptions="products"
+      />
+      <FilterSearch
+        class="parent-component__component"
+        label="Estados"
+        :filterOptions="products"
+      />
+      <FilterSearch
+        class="parent-component__component"
+        label="Videojuegos"
+        :filterOptions="products"
+      />
+      <FilterSearch
+        class="parent-component__component"
+        label="Ropa"
+        :filterOptions="products"
+      />
     </div>
   </div>
 </template>
@@ -64,26 +79,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .parent-component {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 20px;
-}
 
-.filter-component {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.custom-button {
-  font-size: 15px;
-  border-radius: 5px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  margin-left: 50px;
+  &__filter-component {
+    display: flex;
+    align-items: center;
+  }
+  .parent-component__component {
+    margin-right: 60px;
+  }
 }
 </style>
