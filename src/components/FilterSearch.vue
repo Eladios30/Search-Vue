@@ -141,10 +141,8 @@ export default {
           this.showResults = true;
         } else {
           this.showResults = false;
-          this.$emit("update", []);
           return;
         }
-        this.$emit("update", Array.from(this.filteredOptions));
       }, 300);
     },
     openModal() {

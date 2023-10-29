@@ -57,24 +57,42 @@ export default {
           ],
         },
         {
-          label: "Categorías",
+          label: "Clientes",
           options: [
             { code: "c1", label: "Electrónicos" },
             { code: "c2", label: "Ropa" },
             { code: "c3", label: "Accesorios" },
           ],
         },
+        {
+          label: "Estados",
+          options: [
+            { code: "e1", label: "Activo" },
+            { code: "e2", label: "Inactivo" },
+            { code: "e3", label: "En espera" },
+            { code: "e4", label: "Finalizado" },
+          ],
+        },
+        {
+          label: "Videojuegos",
+          options: [
+            { code: "v1", label: "Aventura" },
+            { code: "v2", label: "Estrategia" },
+            { code: "v3", label: "Deportes" },
+            { code: "v4", label: "Acción" },
+          ],
+        },
+        {
+          label: "Ropa",
+          options: [
+            { code: "r1", label: "Camisetas" },
+            { code: "r2", label: "Pantalones" },
+            { code: "r3", label: "Chaquetas" },
+            { code: "r4", label: "Vestidos" },
+          ],
+        },
       ],
-      productFilter: [],
     };
-  },
-  methods: {
-    updateProducts(filteredOptions) {
-      this.productFilter = filteredOptions;
-    },
-    updateClients(filteredOptions) {
-      this.clients = filteredOptions;
-    },
   },
 };
 </script>
