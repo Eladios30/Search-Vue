@@ -3,16 +3,14 @@
     <div class="filter-component">
       <FilterSearch
         class="custom-button"
-        label="Products"
         :filterOptions="products"
         @update="updateProducts"
       />
-      <FilterSearch
+      <!-- <FilterSearch
         class="custom-button"
-        label="Clients"
         :filterOptions="clients"
         @update="updateClients"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -27,18 +25,20 @@ export default {
     return {
       selectedApi: "",
       show: false,
-      products: [
-        { id: "p1", name: "teclado", precio: 50, calidad: 8, popularidad: 7 },
-        { id: "p2", name: "ratón", precio: 40, calidad: 7, popularidad: 9 },
-        { id: "p3", name: "monitor", precio: 150, calidad: 9, popularidad: 6 },
-        { id: "p4", name: "cámara", precio: 100, calidad: 6, popularidad: 8 },
-        { id: "p5", name: "altavoz", precio: 30, calidad: 7, popularidad: 7 },
-        { id: "p6", name: "auriculares", precio: 20, calidad: 8, popularidad: 6,},
-        { id: "p7", name: "impresora", precio: 80, calidad: 6, popularidad: 8 },
-        { id: "p8", name: "escáner", precio: 70, calidad: 7, popularidad: 7 },
-        { id: "p9", name: "disco duro", precio: 60, calidad: 8, popularidad: 6, },
-        { id: "p10", name: "procesador", precio: 200, calidad: 9, popularidad: 5, },
-      ],
+      products: [{
+        label: 'Productos',
+        options: [
+        { code: "p1", label: "teclado"},
+        { code: "p2", label: "ratón" },
+        { code: "p3", label: "monitor" },
+        { code: "p4", label: "cámara" },
+        { code: "p5", label: "altavoz" },
+        { code: "p6", label: "auriculares" },
+        { code: "p7", label: "impresora" },
+        { code: "p8", label: "escáner" },
+        { code: "p9", label: "disco duro" },
+        { code: "p10", label: "procesador" },
+        ]}],
       productFilter: [],
       clients: [
         {

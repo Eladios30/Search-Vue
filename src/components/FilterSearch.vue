@@ -1,7 +1,12 @@
 <template>
   <div class="search-component">
-    <button class="search-component__label" @click="openModal()">
-      {{ label }}
+    <button
+      v-for="filter in filterOptions"
+      :key="filter.label"
+      class="search-component__label"
+      @click="openModal()"
+    >
+      {{ filter.label }}
     </button>
 
     <!-- Modal para mostrar input -->
@@ -13,7 +18,7 @@
             class="search-component__input"
             type="text"
             v-model="searchTerm"
-            @input="filterPlaceholdersWithDelay"
+            @input="filterPlaceholdersWithDelay()"
             placeholder="Buscar..."
           />
         </div>
@@ -31,10 +36,10 @@
       <div v-show="showResults" class="search-component__results">
         <p
           v-for="option in filteredOptions"
-          :key="option.id"
+          :key="option.code"
           class="search-component__results-title"
         >
-          {{ option.name }}
+          {{ option.code }} - {{ option.label }}
           <input
             class="search-component__results-checkbox"
             type="checkbox"
@@ -54,8 +59,8 @@
         <div class="search-component__selected-results">
           <p v-if="selectedOptions.length === 0">Ninguna opción seleccionada</p>
           <ul v-else>
-            <li v-for="option in selectedOptions" :key="option.id">
-              {{ option.id }}|{{ option.name }}
+            <li v-for="option in selectedOptions" :key="option.code">
+              {{ option.code }}|{{ option.label }}
             </li>
           </ul>
         </div>
@@ -83,9 +88,37 @@ export default {
   },
   computed: {
     filteredOptions() {
-      return this.filterOptions.filter((option) =>
-        option.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+      if (
+        this.filterOptions &&
+        this.filterOptions.length > 0 &&
+        this.filterOptions[0].options
+      ) {
+        // Normaliza el término de búsqueda sin acentos
+        const normalizedSearchTerm = this.searchTerm
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+
+        return this.filterOptions[0].options.filter((option) => {
+          // Normaliza la etiqueta y el código de la opción sin acentos
+          const normalizedLabel = option.label
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+          const normalizedCode = option.code
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+
+          // Compara con la versión normalizada del término de búsqueda
+          return (
+            normalizedCode.includes(normalizedSearchTerm) ||
+            normalizedLabel.includes(normalizedSearchTerm)
+          );
+        });
+      } else {
+        return [];
+      }
     },
   },
   methods: {
@@ -97,10 +130,10 @@ export default {
           this.showResults = true;
         } else {
           this.showResults = false;
-          this.$emit("update", [])
+          this.$emit("update", []);
           return;
         }
-        this.$emit('update', Array.from(this.filteredOptions));
+        this.$emit("update", Array.from(this.filteredOptions));
       }, 300);
     },
     openModal() {
@@ -124,9 +157,6 @@ export default {
     searchTerm() {
       this.filterPlaceholdersWithDelay();
     },
-  },
-  beforeDestroy() {
-    clearTimeout(this.searchTimeout);
   },
 };
 </script>
