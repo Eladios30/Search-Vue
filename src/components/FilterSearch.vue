@@ -9,10 +9,7 @@
       >
         {{ filter.label }}
       </button> -->
-      <button
-        class="search-component__label"
-        @click="openModal()"
-      >
+      <button class="search-component__label" @click="openModal()">
         {{ label }}
       </button>
     </div>
@@ -96,39 +93,8 @@ export default {
   },
   computed: {
     filteredOptions() {
-      if (this.filterOptions && this.filterOptions.length > 0) {
-        const currentCategory = this.filterOptions.find(
-          (category) => category.label === this.label);
-
-        if (currentCategory && currentCategory.options) {
-          return currentCategory.options.filter((option) => {
-            return (
-              option.label
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .includes(
-                  this.searchTerm
-                    .toLowerCase()
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                ) ||
-              option.code
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .includes(
-                  this.searchTerm
-                    .toLowerCase()
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "")
-                )
-            );
-          });
-        }
-      }
-
-      return [];
+      const currentCategory = this.getCurrentCategory();
+      return this.normalizeAndFilter(currentCategory);
     },
   },
   methods: {
@@ -144,6 +110,25 @@ export default {
         }
       }, 300);
     },
+    normalizeString(string) {
+      return string
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+    },
+    getCurrentCategory() {
+      return this.filterOptions.find(
+        (category) => category.label === this.label
+      );
+    },
+    normalizeAndFilter(category) {
+      const normalizeSearchTerm = this.normalizeString(this.searchTerm);
+      return category.options.filter((option) =>
+        [option.label, option.code].some((value) =>
+          this.normalizeString(value).includes(normalizeSearchTerm)
+        )
+      );
+    },
     openModal() {
       this.show = !this.show;
     },
@@ -153,7 +138,8 @@ export default {
     showModalResults() {
       if (this.searchTerm.length >= 3) {
         this.selectedOptions = this.filteredOptions.filter(
-          (option) => option.checked);
+          (option) => option.checked
+        );
         this.showResultsModal = true;
         this.searchTerm = "";
         this.filteredOptions.forEach((option) => (option.checked = false));
