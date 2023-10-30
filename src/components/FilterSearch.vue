@@ -98,8 +98,7 @@ export default {
     filteredOptions() {
       if (this.filterOptions && this.filterOptions.length > 0) {
         const currentCategory = this.filterOptions.find(
-          (category) => category.label === this.label
-        );
+          (category) => category.label === this.label);
 
         if (currentCategory && currentCategory.options) {
           return currentCategory.options.filter((option) => {
@@ -154,8 +153,7 @@ export default {
     showModalResults() {
       if (this.searchTerm.length >= 3) {
         this.selectedOptions = this.filteredOptions.filter(
-          (option) => option.checked
-        );
+          (option) => option.checked);
         this.showResultsModal = true;
         this.searchTerm = "";
         this.filteredOptions.forEach((option) => (option.checked = false));
@@ -188,13 +186,12 @@ export default {
   }
 
   &__buttons {
-    display: flex; /* Establece el contenedor como flexbox */
-    flex-direction: row; /* Coloca los elementos hijos en línea horizontalmente */
-    align-items: center; /* Centra los elementos verticalmente en el contenedor */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   &__label {
-    /* Estilos para los botones */
     background-color: transparent;
     border: 3px solid #ccc;
     color: black;
@@ -202,7 +199,7 @@ export default {
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
-    margin-right: 10px; /* Margen entre los botones */
+    margin-right: 10px;
     transition: border-color 0.3s ease, color 0.3s ease;
 
     &:hover {

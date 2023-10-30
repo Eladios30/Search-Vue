@@ -38,7 +38,6 @@ export default {
   },
   data() {
     return {
-      selectedApi: "",
       show: false,
       products: [
         {
@@ -76,19 +75,23 @@ export default {
         {
           label: "Videojuegos",
           options: [
-            { code: "v1", label: "Aventura" },
-            { code: "v2", label: "Estrategia" },
-            { code: "v3", label: "Deportes" },
-            { code: "v4", label: "Acción" },
+            { code: "v1", label: "FIFA 2024" },
+            { code: "v2", label: "Outlast" },
+            { code: "v3", label: "Warzone 3" },
+            { code: "v4", label: "Black Ops 2" },
+            { code: "v5", label: "Battlefield" },
+            { code: "v6", label: "Fortnite" },
           ],
         },
         {
           label: "Ropa",
           options: [
-            { code: "r1", label: "Camisetas" },
-            { code: "r2", label: "Pantalones" },
-            { code: "r3", label: "Chaquetas" },
-            { code: "r4", label: "Vestidos" },
+            { code: "r1", label: "Gucci" },
+            { code: "r2", label: "Hugo Boss" },
+            { code: "r3", label: "Zátillas" },
+            { code: "r4", label: "Zapatos" },
+            { code: "r5", label: "Pantalones de mezclilla" },
+            { code: "r6", label: "Shorts" },
           ],
         },
       ],
